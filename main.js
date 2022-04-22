@@ -5,10 +5,8 @@ const fs = require("fs");
 const Parser = require("rss-parser");
 
 (async function main(){
-
     const parser = new Parser();
     const feed = await parser.parseURL("https://rutgers.campuslabs.com/engage/events.rss");
-
 
     let items = [];
 
@@ -20,5 +18,9 @@ const Parser = require("rss-parser");
 
     var json = JSON.stringify(items, null, 2);
     fs.writeFileSync("events.json", json);
+
+    for(var i=0; i<items.length; i++){
+        console.log(items[i].author);
+    }
     
 })();
