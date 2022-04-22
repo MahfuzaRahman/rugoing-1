@@ -19,8 +19,25 @@ const Parser = require("rss-parser");
     var json = JSON.stringify(items, null, 2);
     fs.writeFileSync("events.json", json);
 
+    let events = [];
     for(var i=0; i<items.length; i++){
-        console.log(items[i].author);
+        let clubInfo = (String)(items[i].author);
+        let parIndex = clubInfo.indexOf('(');
+        let event = {
+            "eventName": items[i].title,
+            "clubEmail": clubInfo.substring(0, parIndex),
+            "clubName": clubInfo.substring(parIndex+1, clubInfo.length-1),
+            "categories": items[i].categories,
+            "date": items[i].content.time
+        } 
+        events.push(event);
+        if(!(items[i].author === undefined)){
+            console.log("#" + i + " "+ events[i].eventName + " " + events[i].clubName);
+            for(var k = 0; k <event.categories.length; k++)
+                console.log(event.categories[k]);
+           // console.log(events[i].date)
+        }
+
     }
     
 })();
